@@ -12,6 +12,7 @@ import Base.BaseUtil;
 import io.cucumber.java.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 
 /**
@@ -29,22 +30,24 @@ public class Hook extends BaseUtil{
 
     @Before
     public void InitializeTest(Scenario scenario) {
-
-
+    	
+    	String browser = System.getProperty("browser");
+    	
         base.scenarioDef = base.features.createNode(scenario.getName());
 
-        System.out.println("Opening the browser : Firefox");
-
-        /*System.setProperty("webdriver.firefox.marionette", "D:\\Libs\\geckodriver.exe");
-        base.Driver = new FirefoxDriver();*/
-
-
-        //Chrome driver
-//        System.setProperty("webdriver.chrome.driver", "/Users/karthikkk/ChromeDriver/chromedriver");
-//        base.Driver = new ChromeDriver();
-
-        System.setProperty("webdriver.chrome.driver", "C:/driver/Web/chromedriver.exe");
-        base.Driver = new ChromeDriver();
+        System.out.println("Opening the browser : " + browser);
+        
+        if(browser.equalsIgnoreCase("Chrome")) {
+        	System.setProperty("webdriver.chrome.driver", "C:/driver/Web/chromedriver.exe");
+            base.Driver = new ChromeDriver();
+        } else if(browser.equalsIgnoreCase("Firefox")) {
+        	System.setProperty("webdriver.firefox.marionette", "C:/driver/Web/geckodriver.exe");
+            base.Driver = new FirefoxDriver();
+        } else {
+        	System.setProperty("webdriver.chrome.driver", "C:/driver/Web/chromedriver.exe");
+            base.Driver = new ChromeDriver();
+        }
+        
     }
 
 
